@@ -22,11 +22,16 @@ const data: Cafe[] = [
 const App = ()=> {
   const [cafeList, setCafeList] = useState(data);
   const [showOnlyFavorite , setshowOnlyFavorites] = useState(false)
+
   const onFavoriteChange =(isFavoriSelected: boolean)=>{
     setshowOnlyFavorites(isFavoriSelected)
-    isFavoriSelected ? setCafeList(cafeList.filter(cafe => cafe.isFavorite))
-    : setCafeList(data)
-  }
+    if(isFavoriSelected){
+      setCafeList(cafeList.filter(cafe => cafe.isFavorite))
+    }
+    else {
+      setCafeList(data)
+    }
+  } 
 
 
   return (
