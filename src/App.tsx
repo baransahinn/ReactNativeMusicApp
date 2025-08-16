@@ -4,21 +4,18 @@ import { useEffect, useState } from 'react';
 
 
 
-
-
 const App = ()=> {
    const [number , setNumber] = useState(0);
    
     
-   useEffect(()=>console.log("number updated") ,[number])
+   useEffect(()=>console.log("number updated: "+ number) ,[number])
 
 
   return (
     <SafeAreaView>
       <Text>{number}</Text>
       <Button title='up' onPress={()=>setNumber(number+1)}/>
-        
-      
+
     </SafeAreaView>
   );
 
