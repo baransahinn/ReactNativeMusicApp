@@ -5,17 +5,19 @@ import { useEffect, useState } from 'react';
 
 
 const App = ()=> {
-   const [number , setNumber] = useState(0);
+   const [helloFlag , sethelloFlag] = useState(true);
    
-    
-   useEffect(()=>console.log("number updated: "+ number) ,[number])
+    const updateFlag =()=>{
+       sethelloFlag(!helloFlag)
+    }
+
 
 
   return (
     <SafeAreaView>
-      <Text>{number}</Text>
-      <Button title='up' onPress={()=>setNumber(number+1)}/>
-
+      <Text>Hello lifecycle</Text>
+      <Button title='Up' onPress={updateFlag}/>
+      {helloFlag && <Hello/>}
     </SafeAreaView>
   );
 
@@ -23,3 +25,18 @@ const App = ()=> {
 
 
 export default App;
+
+const Hello = ()=>{
+   
+  useEffect(()=>{
+    console.log('useEffect');
+    return ()=> {
+      console.log("finis")
+    }
+  },[])
+   return (
+    <View>
+      <Text>I am Hello Compenent</Text>
+    </View>
+   );
+}
