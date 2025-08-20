@@ -1,47 +1,47 @@
 
-import {View,SafeAreaView,Text,Button,FlatList,Switch} from 'react-native';
-import { useState } from 'react';
+import {View,SafeAreaView,Text,Button,FlatList,Switch,StyleSheet} from 'react-native';
+import { useEffect, useState } from 'react';
+import music_data from './music-data.json';
+import Card from './compenents/Card';
+import SearchBar from './compenents/SearchBar';
 
 
-type Cafe = {
-  id : number;
-  name: string;
-  isFavorite : boolean;
-}
 
-const data: Cafe[] = [
-  { id: 0, name: 'cafe.exe', isFavorite: true },
-  { id: 1, name: 'KafaKafe', isFavorite: false },
-  { id: 2, name: 'BugG', isFavorite: false },
-  { id: 3, name: 'Rock n code', isFavorite: true },
-  { id: 4, name: 'do(drink)', isFavorite: false },
-  { id: 5, name: 'esc', isFavorite: false }
-];
+const App = ()=> { 
+   const [list , setList]= useState(music_data)
+  const handleSearch = (text:string)=>{
+    const filteredList =music_data.filter(song=>{
+      const searcedText =text.toLowerCase()
+      const currentTitle = song.title.toLowerCase();
 
+      return currentTitle.indexOf(searcedText) > -1;
 
-const App = ()=> {
-  const [cafeList, setCafeList] = useState(data);
-  const [showOnlyFavorite , setshowOnlyFavorites] = useState(false)
-  const onFavoriteChange =(isFavoriSelected: boolean)=>{
-    setshowOnlyFavorites(isFavoriSelected)
-    isFavoriSelected ? setCafeList(cafeList.filter(cafe => cafe.isFavorite))
-    : setCafeList(data)
+    })
+    setList(filteredList);
   }
 
-
   return (
-    <SafeAreaView>
-        <Switch value={showOnlyFavorite} onValueChange={onFavoriteChange}/>
-        <FlatList
-        keyExtractor={(item:Cafe)=>item.id.toString()}
-        data={cafeList}
-        renderItem={({item}:{item:Cafe})=> <Text style={{fontSize:25}}>{item.name}</Text>}
-        
-        />
+    <SafeAreaView style={styles.container}>
+      <SearchBar onSearch={handleSearch} />
+      <FlatList
+         keyExtractor={(item) => item.id}
+        data={list}
+        renderItem={({item})=> <Card song={item}/>} 
+      />    
     </SafeAreaView>
   );
 
 }
 
-
 export default App;
+
+const styles = StyleSheet.create({
+  container: {
+    flex : 1,
+  },
+  separator:{
+    borderWidth : 1,
+    color:'#e0e0e0'
+  },
+});
+
